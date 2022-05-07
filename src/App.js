@@ -21,11 +21,13 @@ function App() {
   const fillWithText = () => {
     setText(TEXT_TO_PROCCESS)
   }
-
+ const sentences = text.split('.')
   return (
     <div style={{width:'100%'}}>
       <button onClick={fillWithText}> Fill with text</button>
-      <div style={{ width: '80%' , margin:'auto'}}>{text}</div>
+      <div style={{ width: '80%' , margin:'auto'}}>{sentences.map(sentence => {
+        return <span style={{ border: "2px solid blue"}}>{sentence}</span>
+      })}</div>
     </div>
   );
 }
