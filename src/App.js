@@ -18,11 +18,15 @@ Praesent pulvinar dignissim congue. Etiam accumsan augue sit amet nunc congue, q
 
 function App() {
   const [text , setText] = useState('')
+  const [sentenceWordCount ,setSentenceWordCount] = useState(0)
   const fillWithText = () => {
     setText(TEXT_TO_PROCCESS)
   }
  const sentences = text.split('.')
  const handlesentenceHover = (e) => {
+   const sentenceText = e.target.innerText
+   const countWords = sentenceText.trim().split(' ').length
+   setSentenceWordCount(countWords)
     console.log('e::::::',e.target.innerText);
  }
   return (
@@ -31,6 +35,9 @@ function App() {
       <div style={{ width: '80%' , margin:'auto'}}>{sentences.map(sentence => {
         return <span style={{ border: "2px solid blue"}} onMouseEnter={handlesentenceHover}>{sentence}</span>
       })}</div>
+      <div>
+        word count : {sentenceWordCount}
+      </div>
     </div>
   );
 }
