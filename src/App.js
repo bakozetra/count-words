@@ -1,7 +1,9 @@
-import logo from './logo.svg';
+
 import './App.css';
-import { useState } from 'react';
+import {useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+
 const TEXT_TO_PROCCESS = `
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent aliquam, metus non cursus tristique, ligula orci cursus dui, in suscipit libero turpis sed dui. Fusce arcu dolor, fermentum consequat arcu vel, efficitur egestas ex. Integer gravida scelerisque dolor, at suscipit arcu fermentum sed. Donec vitae nisi eget arcu imperdiet sollicitudin. Vivamus facilisis massa non mi tincidunt dapibus in quis diam. In hac habitasse platea dictumst. Etiam condimentum augue at dignissim elementum. Morbi sit amet urna massa. Vivamus vel dolor ex. Nunc pulvinar nisl sed lorem tempus, id tristique tortor gravida. Donec ac purus diam. Pellentesque gravida sem et tempor sodales.
@@ -16,32 +18,35 @@ Praesent pulvinar dignissim congue. Etiam accumsan augue sit amet nunc congue, q
 
 `
 
-
-
-
-
-
-
 function App() {
   const [text, setText] = useState('')
   const [sentenceWordCount, setSentenceWordCount] = useState(0)
   const fillWithText = () => {
     setText(TEXT_TO_PROCCESS)
   }
-  const sentences = text.split('.')
+  const getRandomText = async() => {
+   const response = await fetch('http://metaphorpsum.com/paragraphs/2/16')
+const out = await response.text()
+console.log('out::::::',out);
+   console.log('response::::::',  response.text);
+   setText(out)
+  }
+
+  const sentences = text.split('.').map(sentence => `${sentence}.`)
   const handlesentenceHover = (e) => {
     const sentenceText = e.target.innerText
     const countWords = sentenceText.trim().split(' ').length
     setSentenceWordCount(countWords)
-    console.log('e::::::', e.target.innerText);
   }
+
   return (
     <div style={{ width: '100%' }}>
-      <button onClick={fillWithText}> Fill with text</button>
-      <div style={{ width: '80%', margin: 'auto' }}>{sentences.map(sentence => {
+      <Button onClick={fillWithText}> Fill with text</Button>
+      <Button onClick={getRandomText}> Get random text</Button>
+      <div style={{ width: '80%', margin: 'auto' }}>{sentences.map((sentence, index )=> {
         return (
-          <Tooltip title={`word count : ${sentenceWordCount}`} followCursor>
-            <span style={{ border: "2px solid blue" }} onMouseEnter={handlesentenceHover}>{sentence}</span>
+          <Tooltip key={sentence + index} title={`word count : ${sentenceWordCount}`} followCursor>
+            <span className='sentence-span' onMouseEnter={handlesentenceHover}>{sentence}</span>
           </Tooltip>
         )
       })}
