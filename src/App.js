@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import Tooltip from '@mui/material/Tooltip';
 const TEXT_TO_PROCCESS = `
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent aliquam, metus non cursus tristique, ligula orci cursus dui, in suscipit libero turpis sed dui. Fusce arcu dolor, fermentum consequat arcu vel, efficitur egestas ex. Integer gravida scelerisque dolor, at suscipit arcu fermentum sed. Donec vitae nisi eget arcu imperdiet sollicitudin. Vivamus facilisis massa non mi tincidunt dapibus in quis diam. In hac habitasse platea dictumst. Etiam condimentum augue at dignissim elementum. Morbi sit amet urna massa. Vivamus vel dolor ex. Nunc pulvinar nisl sed lorem tempus, id tristique tortor gravida. Donec ac purus diam. Pellentesque gravida sem et tempor sodales.
@@ -16,27 +17,34 @@ Praesent pulvinar dignissim congue. Etiam accumsan augue sit amet nunc congue, q
 `
 
 
+
+
+
+
+
 function App() {
-  const [text , setText] = useState('')
-  const [sentenceWordCount ,setSentenceWordCount] = useState(0)
+  const [text, setText] = useState('')
+  const [sentenceWordCount, setSentenceWordCount] = useState(0)
   const fillWithText = () => {
     setText(TEXT_TO_PROCCESS)
   }
- const sentences = text.split('.')
- const handlesentenceHover = (e) => {
-   const sentenceText = e.target.innerText
-   const countWords = sentenceText.trim().split(' ').length
-   setSentenceWordCount(countWords)
-    console.log('e::::::',e.target.innerText);
- }
+  const sentences = text.split('.')
+  const handlesentenceHover = (e) => {
+    const sentenceText = e.target.innerText
+    const countWords = sentenceText.trim().split(' ').length
+    setSentenceWordCount(countWords)
+    console.log('e::::::', e.target.innerText);
+  }
   return (
-    <div style={{width:'100%'}}>
+    <div style={{ width: '100%' }}>
       <button onClick={fillWithText}> Fill with text</button>
-      <div style={{ width: '80%' , margin:'auto'}}>{sentences.map(sentence => {
-        return <span style={{ border: "2px solid blue"}} onMouseEnter={handlesentenceHover}>{sentence}</span>
-      })}</div>
-      <div>
-        word count : {sentenceWordCount}
+      <div style={{ width: '80%', margin: 'auto' }}>{sentences.map(sentence => {
+        return (
+          <Tooltip title={`word count : ${sentenceWordCount}`} followCursor>
+            <span style={{ border: "2px solid blue" }} onMouseEnter={handlesentenceHover}>{sentence}</span>
+          </Tooltip>
+        )
+      })}
       </div>
     </div>
   );
