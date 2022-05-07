@@ -22,11 +22,14 @@ function App() {
     setText(TEXT_TO_PROCCESS)
   }
  const sentences = text.split('.')
+ const handlesentenceHover = (e) => {
+    console.log('e::::::',e.target.innerText);
+ }
   return (
     <div style={{width:'100%'}}>
       <button onClick={fillWithText}> Fill with text</button>
       <div style={{ width: '80%' , margin:'auto'}}>{sentences.map(sentence => {
-        return <span style={{ border: "2px solid blue"}}>{sentence}</span>
+        return <span style={{ border: "2px solid blue"}} onMouseEnter={handlesentenceHover}>{sentence}</span>
       })}</div>
     </div>
   );
