@@ -1,8 +1,7 @@
 
 import './App.css';
 import {useState } from 'react';
-import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
+import {Tooltip, Button, Box} from '@mui/material'
 
 const TEXT_TO_PROCCESS = `
 
@@ -26,10 +25,8 @@ function App() {
   }
   const getRandomText = async() => {
    const response = await fetch('http://metaphorpsum.com/paragraphs/2/16')
-const out = await response.text()
-console.log('out::::::',out);
-   console.log('response::::::',  response.text);
-   setText(out)
+   const data = await response.text()
+   setText(data)
   }
 
   const sentences = text.split('.').map(sentence => `${sentence}.`)
@@ -40,17 +37,22 @@ console.log('out::::::',out);
   }
 
   return (
-    <div style={{ width: '100%' }}>
-      <Button onClick={fillWithText}> Fill with text</Button>
-      <Button onClick={getRandomText}> Get random text</Button>
-      <div style={{ width: '80%', margin: 'auto' }}>{sentences.map((sentence, index )=> {
+    <div style={{ width: '100%'}}>
+      <Box sx={{width: "50%",margin :'auto'}}>
+      <h1 style={{color:'#13285B', marginBottom:0}}>Words count</h1>
+      <Box sx={{paddingTop:2,paddingBottom:2}}>
+      <Button onClick={fillWithText} variant="outlined" size="medium" sx={{marginRight: 2}}> Fill with text</Button>
+      <Button onClick={getRandomText} variant="outlined" size="medium"> Get random text</Button>
+      </Box>
+      <div>{sentences.map((sentence, index )=> {
         return (
-          <Tooltip key={sentence + index} title={`word count : ${sentenceWordCount}`} followCursor>
+          <Tooltip key={sentence + index} title={`word count : ${sentenceWordCount}`} sx={{color:'red'}} followCursor>
             <span className='sentence-span' onMouseEnter={handlesentenceHover}>{sentence}</span>
           </Tooltip>
         )
       })}
       </div>
+      </Box>
     </div>
   );
 }
