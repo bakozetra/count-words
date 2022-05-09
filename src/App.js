@@ -41,12 +41,12 @@ function App() {
       <Box sx={{width: "50%",margin :'auto'}}>
       <h1 style={{color:'#13285B', marginBottom:0}}>Words count</h1>
       <Box sx={{paddingTop:2,paddingBottom:2}}>
-      <Button onClick={fillWithText} variant="outlined" size="medium" sx={{marginRight: 2}}> Fill with text</Button>
-      <Button onClick={getRandomText} variant="outlined" size="medium"> Get random text</Button>
+      <Button onClick={fillWithText} variant="contained" size="medium" sx={{marginRight: 2}}> Fill with text</Button>
+      <Button onClick={getRandomText} variant="contained" size="medium"> Get random text</Button>
       </Box>
-      <div>{sentences.map((sentence, index )=> {
+      <div style={{fontSize:18}}>{sentences.map((sentence, index)=> {
         return (
-          <Tooltip key={sentence + index} title={`word count : ${sentenceWordCount}`} sx={{color:'red'}} followCursor>
+          <Tooltip key={sentence + index} title={`word count : ${sentenceWordCount}`} followCursor>
             <span className='sentence-span' onMouseEnter={handlesentenceHover}>{sentence}</span>
           </Tooltip>
         )
