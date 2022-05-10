@@ -1,7 +1,7 @@
 
 import './App.css';
 import {useState } from 'react';
-import {Tooltip, Button, Box} from '@mui/material'
+import {Tooltip, Button, Box, TextField} from '@mui/material'
 
 const TEXT_TO_PROCCESS = `
 
@@ -18,23 +18,55 @@ Praesent pulvinar dignissim congue. Etiam accumsan augue sit amet nunc congue, q
 `
 
 function App() {
-  const [text, setText] = useState('')
-  const [sentenceWordCount, setSentenceWordCount] = useState(0)
+  const [sentences , setSentences] = useState([])
+  let [sentenceWordCount, setSentenceWordCount] = useState(0)
+  let [selectedSentences , setSelectedSentences] = useState([])
+
   const fillWithText = () => {
-    setText(TEXT_TO_PROCCESS)
+    processText(TEXT_TO_PROCCESS)
   }
   const getRandomText = async() => {
    const response = await fetch('http://metaphorpsum.com/paragraphs/2/16')
    const data = await response.text()
-   setText(data)
+   processText(data)
   }
 
-  const sentences = text.split('.').map(sentence => `${sentence}.`)
+  const processText = (text) => { 
+    const sentences = text.split('.')
+  .map(sentence => `${sentence}.`)
+
+  .map((sentence, index) => {
+    return {id:index , value:sentence , selected: false}
+  })
+ setSentences(sentences)
+}
+
   const handlesentenceHover = (e) => {
     const sentenceText = e.target.innerText
     const countWords = sentenceText.trim().split(' ').length
-    setSentenceWordCount(countWords)
+      setSentenceWordCount(countWords)
   }
+
+ const onSelectSentences = (id) => {
+   console.log('id::::::',id);
+  setSelectedSentences([...selectedSentences, id])
+
+  const updatedSSentencesSelection = sentences.map( sentence => {
+    if(sentence.id === id) {
+      const updateSelect =  {...sentence , selected:!sentence.selected}
+      console.log('updateSelect::::::',updateSelect);
+      return updateSelect
+    } else {
+      return sentence
+    }
+  }
+  
+  )
+ setSentences(updatedSSentencesSelection)
+
+ }
+ console.log('sentencee::::::',sentences);
+ 
 
   return (
     <div style={{ width: '100%'}}>
@@ -44,14 +76,21 @@ function App() {
       <Button onClick={fillWithText} variant="contained" size="medium" sx={{marginRight: 2}}> Fill with text</Button>
       <Button onClick={getRandomText} variant="contained" size="medium"> Get random text</Button>
       </Box>
+      {sentenceWordCount = 0 ? <span></span> : 
       <div style={{fontSize:18}}>{sentences.map((sentence, index)=> {
+const spanClasses = `${sentence.selected ? 'sentence-spanSelected': ''} sentence-span`
         return (
-          <Tooltip key={sentence + index} title={`word count : ${sentenceWordCount}`} followCursor>
-            <span className='sentence-span' onMouseEnter={handlesentenceHover}>{sentence}</span>
-          </Tooltip>
+          <Tooltip key={sentence.id} title={`word count : ${sentenceWordCount}`} enterNextDelay={500} enterNextDelay={500} followCursor>
+          <span className={ spanClasses }  onClick={() => onSelectSentences(sentence.id)}  onMouseEnter={handlesentenceHover}>{sentence.value}</span>
+        </Tooltip>
         )
       })}
       </div>
+       }
+       <p style={{paddingTop: 0}}>
+       {selectedSentences}
+       </p>
+      
       </Box>
     </div>
   );

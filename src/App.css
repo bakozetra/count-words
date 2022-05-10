@@ -1,4 +1,7 @@
 .sentence-span:hover {
   background : #61dafb;
 }
+.sentence-spanSelected {
+  box-shadow:inset 0px 0px 0px 2px green;
+}
 
