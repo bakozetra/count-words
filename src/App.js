@@ -59,7 +59,6 @@ function App() {
 
     )
     setSentences(updatedSSentencesSelection)
-
   }
   const selectedSentences = sentences.filter(sentence => sentence.selected)
 
@@ -71,22 +70,25 @@ function App() {
           <Button onClick={fillWithText} variant="contained" size="medium" sx={{ marginRight: 2 }}> Fill with text</Button>
           <Button onClick={getRandomText} variant="contained" size="medium"> Get random text</Button>
         </Box>
-        {sentenceWordCount = 0 ? <span></span> :
-          <div style={{ fontSize: 18 }}>{sentences.map((sentence, index) => {
-            const spanClasses = `${sentence.selected ? 'sentence-spanSelected' : ''} sentence-span`
-            return (
-              <Tooltip key={sentence.id} title={`word count : ${sentenceWordCount}`} enterNextDelay={500} enterNextDelay={500} followCursor>
-                <span className={spanClasses} onClick={() => onSelectSentences(sentence.id)} onMouseEnter={handlesentenceHover}>{sentence.value}</span>
-              </Tooltip>
-            )
-          })}
-          </div>
-        }
-
-        <h2>Selected sentences : </h2>
-        <div style={{ fontSize: 18 }}>{selectedSentences.map((sentence, index) => {
+        <div style={{ fontSize: 18 }}>{sentences.map(sentence => {
+          const spanClasses = `${sentence.selected ? 'sentence-spanSelected' : ''} sentence-span`
           return (
-            <span>{sentence.value}</span>
+            <Tooltip key={sentence.id} title={`word count : ${sentenceWordCount}`} enterNextDelay={500} enterNextDelay={500} followCursor>
+              <span className={spanClasses} onClick={() => onSelectSentences(sentence.id)} onMouseEnter={handlesentenceHover}>{sentence.value}</span>
+            </Tooltip>
+          )
+        })}
+        </div> 
+        {}
+        <h2 style={{ color: '#13285B'}}>Selected sentences : </h2>
+        <div style={{
+          border: '3px solid gray',
+          padding: 12,
+          borderRadius: 8,
+          marginBottom: 32
+        }}>{selectedSentences.map(sentence => {
+          return (
+            <span key={sentence.id}>{sentence.value}</span>
           )
         })}
         </div>
